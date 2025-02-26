@@ -29,6 +29,7 @@ const displayCategories = (categories) => {
 // Fetching All Pet
 
 const allPets = async () => {
+
     const spinner = document.getElementById('spinner')
     const container = document.getElementById('all-pets-container')
     container.innerHTML = "";
@@ -59,8 +60,9 @@ const displayAllPets = (pets) => {
     pets.forEach((pet) => {
         // console.log(pet);
         const div = document.createElement('div')
-        div.classList = 'border-2 p-4'
+        div.classList = 'border-2 p-4 relative'
         div.innerHTML = `
+       
         <div class="md:h-[210px] md:w-[320px]">
         <img class="h-full w-full object-cover" src=${pet.image}/>
         </div>
@@ -78,10 +80,11 @@ const displayAllPets = (pets) => {
          <i class="fa-solid fa-thumbs-up"></i>
          
          </button>
-         <button onclick="adoptButton()" class="border-2 py-2 px-4 text-sm">Adopt</button>
+         <button onclick="adoptButton(this)" class="border-2 py-2 px-4 text-sm">Adopt</button>
          <button class="border-2 py-2 px-4 text-sm">Details</button>
          </div>
-        
+
+          
         `
 
         allPetsContainer.append(div)
@@ -91,16 +94,39 @@ const displayAllPets = (pets) => {
 };
 
 
-const adoptButton = () => {
-    document.getElementById('adoptModalBtn').click();
+const adoptButton = (button) => {
 
-   const modalDiv = document.getElementById('modalDiv');
+    const adoptModal = document.getElementById('adoptModal')
+    // const btn = document.querySelector('.making-disable');
+    const countDown = document.getElementById('countDown');
 
-   setTimeout(()=>{
-    modalDiv.classList.add('hidden');
-   },2000)
+    let counter = 3;
+
+    let intervalId = setInterval(() => {
+        counter--;
+        countDown.innerText = `Counter: ${counter}`
+        console.log(`Counter: ${counter}`);
+
+        if (counter === 0) {
+            clearInterval(intervalId); // Stops the interval after 5 executions
+            console.log("Interval stopped.");
+        }
+    }, 1000);
+
+    adoptModal.classList.remove('hidden')
+    setTimeout(() => {
+        adoptModal.classList.add('hidden')
+    }, 3000);
+    button.innerText = 'Adopted'
+    button.setAttribute('disabled', true)
+    button.classList.add("opacity-50", "cursor-not-allowed");
+    console.log('button clicked');
 }
 
+// function testing(){
+//     const button= document.getElementById('newButton')
+//     button.setAttribute('disabled',true)
+// }
 
 // Fetch pets by category
 
@@ -146,5 +172,5 @@ document.getElementById('sort').addEventListener('click', sortingPetsByPrice)
 
 
 
-allPets()
+allPets();
 categories();

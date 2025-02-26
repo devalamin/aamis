@@ -59,7 +59,7 @@
     <!-- banner part end -->
 
     <!-- main part start -->
-     <main>
+     <main class="">
      <section class="w-11/12 mx-auto mt-16">
         <div class="text-center mb-8">
             <h2 class="text-xl font-bold">Adopt Your Best Friend Today</h2>
@@ -78,35 +78,28 @@
          </div>
         <div class="flex gap-6 justify-between">
 
-            <div id="all-pets-container" class="self-start w-4/5 grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div id="all-pets-container" class="self-start w-4/5 grid grid-cols-1 md:grid-cols-3 gap-4">
+   
+            </div>
+            <div id="adoptModal" class="hidden border-2 bg-teal-600 text-white shadow-xl rounded-lg p-10 absolute top-1/3">
+
+                <h2>Congratulations, You Have Successfully Adopted this Wonderful baby</h2>
+                <div id="countDown">
+                    
+                </div>
+             </div>
             
             <div id="image-container" class="self-start w-1/5 grid md:grid-cols-2 grid-cols-1"></div>
         </div>
      </section>
+     
      </main>
 
 
 
-     <!-- Open the modal using ID.showModal() method -->
-<button id="adoptModalBtn" class="btn hidden" onclick="adoptModal.showModal()">open modal</button>
-<!-- 
-     <div id="adoptModal" class="modal modal-bottom">
-        <h2>My new Modal</h2>
-     </div> -->
-<div id="modalDiv" class="">
-    <dialog id="adoptModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="text-lg font-bold">Hello!</h3>
-          <p class="py-4">Press ESC key or click the button below to close</p>
-          <div class="modal-action">
-            <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
-              <button class="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-</div>
+     
+
+
     <!-- main part end -->
 
 
