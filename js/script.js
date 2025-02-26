@@ -35,15 +35,20 @@ const allPets = async () => {
     spinner.classList.remove('hidden');
     const res = await fetch('https://openapi.programming-hero.com/api/peddy/pets')
     const data = await res.json();
-    spinner.classList.add('hidden')
-    displayAllPets(data.pets)
+
+    setTimeout(() => {
+        spinner.classList.add('hidden')
+        displayAllPets(data.pets)
+
+    }, 2000)
+
 
 };
 
 
 // Displaying all pets in the ui
 const displayAllPets = (pets) => {
-    console.log(pets);
+    // console.log(pets);
     const allPetsContainer = document.getElementById('all-pets-container')
     allPetsContainer.innerHTML = '';
 
@@ -60,20 +65,20 @@ const displayAllPets = (pets) => {
         <img class="h-full w-full object-cover" src=${pet.image}/>
         </div>
         <div class="space-y-1">
-        <p class="font-bold">${pet?.pet_name}</p>
-        <p class="text-sm">${pet?.breed}</p>
-        <p class="text-sm">${pet?.date_of_birth}</p>
-        <p class="text-sm">${pet?.gender}</p>
-        <p class="text-sm">${pet?.price}</p>
+        <p class="font-bold">${pet.pet_name ? pet.pet_name : "Not Available"}</p>
+        <p class="text-sm">${pet.breed ? pet.breed : "Not Available"}</p>
+        <p class="text-sm">${pet.date_of_birth ? pet.date_of_birth : "Not Available"}</p>
+        <p class="text-sm">${pet.gender ? pet.gender : "Not Available"}</p>
+        <p class="text-sm">${pet.price ? pet.price : "Not Available"}</p>
         
         </div>
          <div class="divider"></div>
          <div class="flex justify-between">
-         <button class="border-2 py-2 px-4 text-sm">
+         <button onclick="takeImage('${pet.image}')" class="border-2 py-2 px-4 text-sm">
          <i class="fa-solid fa-thumbs-up"></i>
          
          </button>
-         <button class="border-2 py-2 px-4 text-sm">Adopt</button>
+         <button onclick="adoptButton()" class="border-2 py-2 px-4 text-sm">Adopt</button>
          <button class="border-2 py-2 px-4 text-sm">Details</button>
          </div>
         
@@ -82,8 +87,19 @@ const displayAllPets = (pets) => {
         allPetsContainer.append(div)
     })
 
+
 };
 
+
+const adoptButton = () => {
+    document.getElementById('adoptModalBtn').click();
+
+   const modalDiv = document.getElementById('modalDiv');
+
+   setTimeout(()=>{
+    modalDiv.classList.add('hidden');
+   },2000)
+}
 
 
 // Fetch pets by category
@@ -94,6 +110,40 @@ const fetchingPetsByCategory = async (category) => {
     displayAllPets(data.data)
     console.log(data.data);
 }
+
+
+// taking image of every pets and show them to the right side 
+const takeImage = (image) => {
+    // const allPetsContainer = document.getElementById('all-pets-container');
+
+    // allPetsContainer.classList.remove('w-full')
+    // allPetsContainer.classList.add('w-4/5')
+
+    const imageContainer = document.getElementById('image-container');
+
+    imageContainer.classList.add('border-2')
+    const div = document.createElement('div')
+    div.classList = 'p-2'
+    div.innerHTML = `
+    <img src=${image}/>
+    `
+    imageContainer.append(div)
+    console.log(image);
+
+};
+
+const sortingPetsByPrice = async () => {
+    const res = await fetch('https://openapi.programming-hero.com/api/peddy/pets')
+    const data = await res.json()
+    // for (const singleData of [...data.pets]){
+    //     console.log(singleData);
+    // }
+    const allPets = data.pets;
+    allPets.sort((petA, petB) => petB.price - petA.price)
+    displayAllPets(allPets)
+}
+document.getElementById('sort').addEventListener('click', sortingPetsByPrice)
+
 
 
 allPets()
